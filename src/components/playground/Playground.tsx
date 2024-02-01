@@ -21,8 +21,6 @@ import {
   useConnectionState,
   useDataChannel,
   useLocalParticipant,
-  useParticipantInfo,
-  useRemoteParticipant,
   useRemoteParticipants,
   useTracks,
 } from "@livekit/components-react";
@@ -34,6 +32,7 @@ import {
 } from "livekit-client";
 import { QRCodeSVG } from "qrcode.react";
 import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
+import { Button } from "../button/Button";
 
 export enum PlaygroundOutputs {
   Video,
@@ -220,7 +219,10 @@ export default function Playground({
 
   const audioTileContent = useMemo(() => {
     return (
-      <div className="flex items-center justify-center w-full" style={{ height: '175px' }}>
+      <div
+        className="flex items-center justify-center w-full"
+        style={{ height: "175px" }}
+      >
         {agentAudioTrack ? (
           <AgentMultibandAudioVisualizer
             state={agentState}
@@ -319,6 +321,17 @@ export default function Playground({
                 agentState === "speaking" ? `${themeColor}-500` : "gray-500"
               }
             />
+            <PlaygroundHeader
+              title={title}
+              logo={logo}
+              githubLink={githubLink}
+              height={headerHeight}
+              accentColor={themeColor}
+              connectionState={roomState}
+              onConnectClicked={() =>
+                onConnect(roomState === ConnectionState.Disconnected)
+              }
+            />
           </div>
         </ConfigurationPanelItem>
         {localVideoTrack && (
@@ -342,17 +355,6 @@ export default function Playground({
             <AudioInputTile frequencies={localMultibandVolume} />
           </ConfigurationPanelItem>
         )}
-        <div className="w-full">
-          <ConfigurationPanelItem title="Color">
-            <ColorPicker
-              colors={themeColors}
-              selectedColor={themeColor}
-              onSelect={(color) => {
-                setThemeColor(color);
-              }}
-            />
-          </ConfigurationPanelItem>
-        </div>
         {showQR && (
           <div className="w-full">
             <ConfigurationPanelItem title="QR Code">
@@ -428,17 +430,6 @@ export default function Playground({
 
   return (
     <>
-      <PlaygroundHeader
-        title={title}
-        logo={logo}
-        githubLink={githubLink}
-        height={headerHeight}
-        accentColor={themeColor}
-        connectionState={roomState}
-        onConnectClicked={() =>
-          onConnect(roomState === ConnectionState.Disconnected)
-        }
-      />
       <div
         className={`flex gap-4 py-4 grow w-full selection:bg-${themeColor}-900`}
         style={{ height: `calc(100% - ${headerHeight}px)` }}
@@ -477,10 +468,7 @@ export default function Playground({
             </PlaygroundTile>
           )}
           {outputs?.includes(PlaygroundOutputs.Chat) && (
-            <PlaygroundTile
-              title="Chat"
-              className="h-full grow flex"
-            >
+            <PlaygroundTile title="Chat" className="h-full grow flex">
               {chatTileContent}
             </PlaygroundTile>
           )}

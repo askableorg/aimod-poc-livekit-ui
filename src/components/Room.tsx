@@ -29,7 +29,7 @@ const themeColors = [
   "teal",
 ];
 
-export function Room({ roomName }: { roomName: string }) {
+export function Room({ roomNameSuffix }: { roomNameSuffix: string }) {
   const [toastMessage, setToastMessage] = useState<{
     message: string;
     type: ToastType;
@@ -41,11 +41,20 @@ export function Room({ roomName }: { roomName: string }) {
   const [customToken, setCustomToken] = useState<string>();
   const [metadata, setMetadata] = useState<PlaygroundMeta[]>([]);
 
+  const [roomName, setRoomName] = useState(createRoomName(roomNameSuffix));
+
   const tokenOptions = useMemo(() => {
     return {
       userInfo: { identity: generateRandomAlphanumeric(16) },
     };
   }, []);
+
+  // set a new room name each time the user disconnects so that a new token gets fetched behind the scenes for a different room
+  useEffect(() => {
+    if (shouldConnect === false) {
+      setRoomName(createRoomName(roomNameSuffix));
+    }
+  }, [shouldConnect]);
 
   useEffect(() => {
     const md: PlaygroundMeta[] = [];
@@ -139,3 +148,11 @@ export function Room({ roomName }: { roomName: string }) {
     </Layout>
   );
 }
+
+
+function createRoomName(suffix: string) {
+    return [generateRandomAlphanumeric(4), suffix].join(
+      "-"
+    );
+  }
+  

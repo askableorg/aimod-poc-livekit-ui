@@ -16,7 +16,7 @@ export default function Home() {
           }
           const sanitizedRoomName = roomName.trim().toUpperCase().replace(/[^A-Z\d-]+/g, "-").replace(/^-+|-+$/g, '').replace(/--+/g, '-');
           const url = new URL(window.location.href);
-          url.pathname = `${generateRandomAlphanumeric(4)}-${sanitizedRoomName}`;
+          url.pathname = sanitizedRoomName;
           window.location.replace(url.toString());
         }}
       >
@@ -28,7 +28,7 @@ export default function Home() {
             <input
               className="text-white text-sm bg-transparent border border-gray-800 rounded-sm px-3 py-2"
               placeholder="ROOM-NAME"
-              minLength={3}
+              minLength={4}
               maxLength={12}
               onChange={(e) => {
                 setRoomName(e.target.value);

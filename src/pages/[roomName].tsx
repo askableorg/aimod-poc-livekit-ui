@@ -9,11 +9,9 @@ export default function Home() {
     return <Layout>{null}</Layout>;
   }
 
-  
-
   return (
     <Layout>
-      <Room roomName={router.query.roomName} />
+      <Room roomNameSuffix={router.query.roomName} />
     </Layout>
   );
 }

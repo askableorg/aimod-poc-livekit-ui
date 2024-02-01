@@ -24,33 +24,23 @@ export const PlaygroundHeader = ({
 }: PlaygroundHeader) => {
   return (
     <div
-      className={`flex gap-4 pt-4 text-${accentColor}-500 justify-between items-center shrink-0`}
+      className={`flex gap-4 pt-4 text-${accentColor}-500 justify-end items-center shrink-0`}
       style={{
         height: height + "px",
       }}
     >
-      <div className="flex items-center gap-3 basis-2/3">
-        <div className="flex lg:basis-1/2">
-          <a href="https://livekit.io">{logo ?? <LKLogo />}</a>
-        </div>
-        <div className="lg:basis-1/2 lg:text-center text-xs lg:text-base lg:font-semibold text-white">
-          {title}
-        </div>
-      </div>
-      <div className="flex basis-1/3 justify-end items-center gap-4">
-        {githubLink && (
-          <a
-            href={githubLink}
-            target="_blank"
-            className={`text-white hover:text-white/80`}
-          >
-            <GithubSVG />
-          </a>
-        )}
+      {connectionState === ConnectionState.Connected ? (
         <Button
-          accentColor={
-            connectionState === ConnectionState.Connected ? "red" : accentColor
-          }
+          accentColor="gray"
+          onClick={() => {
+            window.location.reload();
+          }}
+        >
+          Hang up
+        </Button>
+      ) : (
+        <Button
+          accentColor={accentColor}
           disabled={connectionState === ConnectionState.Connecting}
           onClick={() => {
             onConnectClicked();
@@ -58,13 +48,11 @@ export const PlaygroundHeader = ({
         >
           {connectionState === ConnectionState.Connecting ? (
             <LoadingSVG />
-          ) : connectionState === ConnectionState.Connected ? (
-            "Disconnect"
           ) : (
             "Connect"
           )}
         </Button>
-      </div>
+      )}
     </div>
   );
 };

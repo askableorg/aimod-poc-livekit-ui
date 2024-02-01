@@ -8,7 +8,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <Head>
-        <title>{appConfig?.title ?? "LiveKit Agents Playground"}</title>
+        <title>AI-Moderated Demo</title>
         <meta
           name="description"
           content={
@@ -22,10 +22,6 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
         />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-        <meta
-          property="og:image"
-          content="https://livekit.io/images/og/agents-playground.png"
-        />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <link rel="icon" href="/favicon.ico" />
