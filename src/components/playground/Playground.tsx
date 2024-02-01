@@ -220,7 +220,7 @@ export default function Playground({
 
   const audioTileContent = useMemo(() => {
     return (
-      <div className="flex items-center justify-center w-full">
+      <div className="flex items-center justify-center w-full" style={{ height: '175px' }}>
         {agentAudioTrack ? (
           <AgentMultibandAudioVisualizer
             state={agentState}
@@ -451,7 +451,7 @@ export default function Playground({
           />
         </div>
         <div
-          className={`flex-col grow basis-1/2 gap-4 h-full hidden lg:${
+          className={`flex-col basis-3/4 grow gap-4 h-full hidden lg:${
             !outputs?.includes(PlaygroundOutputs.Audio) &&
             !outputs?.includes(PlaygroundOutputs.Video)
               ? "hidden"
@@ -461,7 +461,7 @@ export default function Playground({
           {outputs?.includes(PlaygroundOutputs.Video) && (
             <PlaygroundTile
               title="Video"
-              className="w-full h-full grow"
+              className="w-full"
               childrenClassName="justify-center"
             >
               {videoTileContent}
@@ -470,22 +470,21 @@ export default function Playground({
           {outputs?.includes(PlaygroundOutputs.Audio) && (
             <PlaygroundTile
               title="Audio"
-              className="w-full h-full grow"
+              className="w-full h-auto grow-0"
               childrenClassName="justify-center"
             >
               {audioTileContent}
             </PlaygroundTile>
           )}
+          {outputs?.includes(PlaygroundOutputs.Chat) && (
+            <PlaygroundTile
+              title="Chat"
+              className="h-full grow flex"
+            >
+              {chatTileContent}
+            </PlaygroundTile>
+          )}
         </div>
-
-        {outputs?.includes(PlaygroundOutputs.Chat) && (
-          <PlaygroundTile
-            title="Chat"
-            className="h-full grow basis-1/4 hidden lg:flex"
-          >
-            {chatTileContent}
-          </PlaygroundTile>
-        )}
         <PlaygroundTile
           padding={false}
           backgroundColor="gray-950"

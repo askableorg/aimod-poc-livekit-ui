@@ -77,7 +77,7 @@ export default function Home() {
   const appConfig = useAppConfig();
   const outputs = [
     appConfig?.outputs.audio && PlaygroundOutputs.Audio,
-    appConfig?.outputs.video && PlaygroundOutputs.Video,
+    // appConfig?.outputs.video && PlaygroundOutputs.Video,
     appConfig?.outputs.chat && PlaygroundOutputs.Chat,
   ].filter((item) => typeof item !== "boolean") as PlaygroundOutputs[];
 
