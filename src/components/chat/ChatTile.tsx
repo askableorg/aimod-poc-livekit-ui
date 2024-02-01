@@ -27,15 +27,12 @@ export const ChatTile = ({ messages, accentColor, onSend }: ChatTileProps) => {
   }, [containerRef, messages]);
 
   return (
-    <div className="flex flex-col gap-4 w-full h-full">
+    <div className="h-full w-full relative">
       <div
         ref={containerRef}
-        className="overflow-y-auto"
-        style={{
-          height: `calc(100% - ${inputHeight}px)`,
-        }}
+        className="overflow-y-auto absolute h-full w-full bottom-0 pb-4"
       >
-        <div className="flex flex-col min-h-full justify-end gap-6">
+        <div className="flex flex-col min-h-full justify-start gap-6">
           {messages.map((message, index) => (
             <ChatMessage
               key={index}
@@ -47,12 +44,6 @@ export const ChatTile = ({ messages, accentColor, onSend }: ChatTileProps) => {
           ))}
         </div>
       </div>
-      <ChatMessageInput
-        height={inputHeight}
-        placeholder="Type a message"
-        accentColor={accentColor}
-        onSend={onSend}
-      />
     </div>
   );
 };

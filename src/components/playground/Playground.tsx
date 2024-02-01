@@ -2,7 +2,6 @@
 
 import { LoadingSVG } from "@/components/button/LoadingSVG";
 import { ChatMessageType, ChatTile } from "@/components/chat/ChatTile";
-import { ColorPicker } from "@/components/colorPicker/ColorPicker";
 import { AudioInputTile } from "@/components/config/AudioInputTile";
 import { ConfigurationPanelItem } from "@/components/config/ConfigurationPanelItem";
 import { NameValueRow } from "@/components/config/NameValueRow";
@@ -32,7 +31,6 @@ import {
 } from "livekit-client";
 import { QRCodeSVG } from "qrcode.react";
 import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
-import { Button } from "../button/Button";
 
 export enum PlaygroundOutputs {
   Video,
@@ -432,7 +430,6 @@ export default function Playground({
     <>
       <div
         className={`flex gap-4 py-4 grow w-full selection:bg-${themeColor}-900`}
-        style={{ height: `calc(100% - ${headerHeight}px)` }}
       >
         <div className="flex flex-col grow basis-1/2 gap-4 h-full lg:hidden">
           <PlaygroundTabbedTile
@@ -468,7 +465,10 @@ export default function Playground({
             </PlaygroundTile>
           )}
           {outputs?.includes(PlaygroundOutputs.Chat) && (
-            <PlaygroundTile title="Chat" className="h-full grow flex">
+            <PlaygroundTile
+              title="Chat"
+              className="h-full grow flex overflow-y-auto"
+            >
               {chatTileContent}
             </PlaygroundTile>
           )}
