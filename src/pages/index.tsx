@@ -2,9 +2,15 @@ import { generateRandomAlphanumeric } from "@/lib/util";
 import { Button } from "@/components/button/Button";
 import { Layout } from "@/components/layout/layout";
 import { useState } from "react";
+import { Room } from "@/components/Room";
 
 export default function Home() {
   const [roomName, setRoomName] = useState("");
+  return (
+    <Layout>
+      <Room />
+    </Layout>
+  );
   return (
     <Layout>
       <form

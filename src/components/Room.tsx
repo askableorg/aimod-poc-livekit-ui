@@ -29,7 +29,7 @@ const themeColors = [
   "teal",
 ];
 
-export function Room({ roomNameSuffix }: { roomNameSuffix: string }) {
+export function Room({ roomNameSuffix }: { roomNameSuffix?: string }) {
   const [toastMessage, setToastMessage] = useState<{
     message: string;
     type: ToastType;
@@ -150,8 +150,8 @@ export function Room({ roomNameSuffix }: { roomNameSuffix: string }) {
 }
 
 
-function createRoomName(suffix: string) {
-    return [generateRandomAlphanumeric(4), suffix].join(
+function createRoomName(suffix?: string) {
+    return [generateRandomAlphanumeric(4), suffix || generateRandomAlphanumeric(4)].join(
       "-"
     );
   }
