@@ -1,7 +1,7 @@
 import { ChatMessage } from "@/components/chat/ChatMessage";
 import { ChatMessageInput } from "@/components/chat/ChatMessageInput";
 import { ChatMessage as ComponentsChatMessage } from "@livekit/components-react";
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 
 const inputHeight = 48;
 
@@ -36,13 +36,19 @@ export const ChatTile = ({ messages, accentColor, onSend }: ChatTileProps) => {
           {messages.map((message, index) => (
             <ChatMessage
               key={index}
-              name={message.name}
+              name={message.name === messages[index - 1]?.name ? null : message.name}
               message={message.message}
               isSelf={message.isSelf}
               accentColor={accentColor}
             />
           ))}
         </div>
+        {/* <ChatMessageInput
+          height={inputHeight}
+          placeholder="Type a message"
+          accentColor={accentColor}
+          onSend={onSend}
+        /> */}
       </div>
     </div>
   );

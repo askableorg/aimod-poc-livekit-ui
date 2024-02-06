@@ -42,8 +42,10 @@ export const PlaygroundHeader = ({
         <Button
           accentColor={accentColor}
           disabled={connectionState === ConnectionState.Connecting}
-          onClick={() => {
+          onClick={(e) => {
             onConnectClicked();
+            const button = e.target as HTMLButtonElement;
+            button.blur();
           }}
         >
           {connectionState === ConnectionState.Connecting ? (

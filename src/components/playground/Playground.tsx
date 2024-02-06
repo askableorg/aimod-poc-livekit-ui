@@ -31,6 +31,7 @@ import {
 } from "livekit-client";
 import { QRCodeSVG } from "qrcode.react";
 import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
+import { HandlePtt } from "./HandlePtt";
 
 export enum PlaygroundOutputs {
   Video,
@@ -426,8 +427,29 @@ export default function Playground({
     ),
   });
 
+  const handlePttOff = useCallback(() => {
+    console.log(messages);
+    if (!sendChat) {
+      return;
+    }
+    const lastBotMessage = messages.findLastIndex((m) => !m.isSelf);
+    const lastUserMessage = messages.findLastIndex((m) => m.isSelf);
+    if (lastBotMessage > lastUserMessage) {
+      return;
+    }
+    const unsentMessages = messages.slice(lastBotMessage + 1).map((m) => m.message).join('\n');
+    if (unsentMessages.trim() === '') {
+      return;
+    }
+    sendChat(unsentMessages);
+  }, [sendChat, messages]);
+
   return (
     <>
+    <HandlePtt
+      // onStop={handlePttOff}
+      isEnabled={agentState === "listening"}
+    />
       <div
         className={`flex gap-4 py-4 grow w-full selection:bg-${themeColor}-900`}
       >
