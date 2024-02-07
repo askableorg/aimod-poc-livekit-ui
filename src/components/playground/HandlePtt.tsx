@@ -1,6 +1,6 @@
 import { useTrackToggle } from "@livekit/components-react";
 import { Track } from "livekit-client";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 type Props = {
   isEnabled?: boolean;
@@ -15,18 +15,25 @@ function isSpaceKey(e: KeyboardEvent) {
 export function HandlePtt({ isEnabled, onStart, onStop }: Props) {
   const [isOn, setIsOn] = useState(false);
   const tt = useTrackToggle({ source: Track.Source.Microphone });
+  const keyUpTimeout = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const keyDownListener = (e: KeyboardEvent) => {
       if (isSpaceKey(e) && !e.repeat) {
-        console.log("setIsOn(true);");
+        if (keyUpTimeout) {
+          clearTimeout(keyUpTimeout.current!);
+        }
         setIsOn(true);
       }
     };
     const keyUpListener = (e: KeyboardEvent) => {
       if (isSpaceKey(e)) {
-        console.log("setIsOn(false);");
-        setIsOn(false);
+        if (keyUpTimeout) {
+          clearTimeout(keyUpTimeout.current!);
+        }
+        keyUpTimeout.current = setTimeout(() => {
+          setIsOn(false);
+        }, 200);
       }
     };
 
