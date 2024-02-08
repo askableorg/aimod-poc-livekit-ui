@@ -16,13 +16,6 @@ export const PlaygroundConnect = ({
   return (
     <div className="flex left-0 top-0 w-full h-full bg-black/80 items-center justify-center text-center">
       <div className="flex flex-col gap-4 p-8 bg-gray-950 w-full max-w-[400px] rounded-lg text-white border border-gray-900">
-        <div className="flex flex-col gap-2">
-          <h1 className="text-xl">Connect to playground</h1>
-          <p className="text-sm text-gray-500">
-            Connect LiveKit Agent Playground with a custom server using LiveKit
-            Cloud or LiveKit Server.
-          </p>
-        </div>
         <div className="flex flex-col gap-2 my-4">
           <input
             ref={urlInput}

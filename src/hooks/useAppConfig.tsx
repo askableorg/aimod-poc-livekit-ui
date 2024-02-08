@@ -22,7 +22,7 @@ export type AppConfig = {
 // Fallback if NEXT_PUBLIC_APP_CONFIG is not set
 const defaultConfig: AppConfig = {
   title: "Agents Playground",
-  description: "A playground for testing LiveKit Agents",
+  description: "",
   theme_color: "cyan",
   outputs: {
     audio: true,

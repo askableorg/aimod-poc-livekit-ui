@@ -21,6 +21,7 @@ import {
   useDataChannel,
   useLocalParticipant,
   useRemoteParticipants,
+  useTrackToggle,
   useTracks,
 } from "@livekit/components-react";
 import {
@@ -76,6 +77,7 @@ export default function Playground({
   const [messages, setMessages] = useState<ChatMessageType[]>([]);
   const [transcripts, setTranscripts] = useState<ChatMessageType[]>([]);
   const { localParticipant } = useLocalParticipant();
+  const [userMicEnabled, setUserMicEnabled] = useState(true);
 
   const participants = useRemoteParticipants({
     updateOnlyOn: [RoomEvent.ParticipantMetadataChanged],
@@ -446,10 +448,10 @@ export default function Playground({
 
   return (
     <>
-    <HandlePtt
+    {/* <HandlePtt
       // onStop={handlePttOff}
       isEnabled={agentState === "listening"}
-    />
+    /> */}
       <div
         className={`flex gap-4 py-4 grow w-full selection:bg-${themeColor}-900`}
       >
