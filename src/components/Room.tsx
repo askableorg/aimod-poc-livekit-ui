@@ -76,7 +76,7 @@ export function Room({ roomNameSuffix }: { roomNameSuffix?: string }) {
   const outputs = [
     appConfig?.outputs.audio && PlaygroundOutputs.Audio,
     // appConfig?.outputs.video && PlaygroundOutputs.Video,
-    appConfig?.outputs.chat && PlaygroundOutputs.Chat,
+    // appConfig?.outputs.chat && PlaygroundOutputs.Chat,
   ].filter((item) => typeof item !== "boolean") as PlaygroundOutputs[];
 
   const handleConnect = useCallback(

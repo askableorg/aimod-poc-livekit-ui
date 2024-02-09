@@ -33,6 +33,7 @@ import {
 import { QRCodeSVG } from "qrcode.react";
 import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import { HandlePtt } from "./HandlePtt";
+import { set } from "radash";
 
 export enum PlaygroundOutputs {
   Video,
@@ -78,6 +79,9 @@ export default function Playground({
   const [transcripts, setTranscripts] = useState<ChatMessageType[]>([]);
   const { localParticipant } = useLocalParticipant();
   const [userMicEnabled, setUserMicEnabled] = useState(true);
+
+  const [agentLastMessageText, setAgentLastMessageText] = useState<string | null>('');
+  const [agentIsThinking, setAgentIsThinking] = useState(true);
 
   const participants = useRemoteParticipants({
     updateOnlyOn: [RoomEvent.ParticipantMetadataChanged],
@@ -446,6 +450,22 @@ export default function Playground({
     sendChat(unsentMessages);
   }, [sendChat, messages]);
 
+  const lastMessage = messages[messages.length - 1];
+
+  useEffect(() => {
+    if (agentState === "thinking") {
+      setAgentLastMessageText(null);
+      return;
+    }
+    // if (lastMessage?.isSelf) {
+    //   setAgentLastMessageText(null);
+    //   return;
+    // }
+    if (lastMessage?.message && lastMessage?.isSelf === false) {
+      setAgentLastMessageText(lastMessage.message);
+    }
+  }, [agentState, lastMessage]);
+
   return (
     <>
     <HandlePtt
@@ -496,6 +516,14 @@ export default function Playground({
               {chatTileContent}
             </PlaygroundTile>
           )}
+            <PlaygroundTile
+              title="Message"
+              className="h-full grow flex overflow-y-auto"
+            >
+              <p className={`text-${themeColor}-400 text-ts-${themeColor} text-md`}>
+                {agentLastMessageText || '...'}
+              </p>
+            </PlaygroundTile>
         </div>
         <PlaygroundTile
           padding={false}
