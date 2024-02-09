@@ -448,10 +448,10 @@ export default function Playground({
 
   return (
     <>
-    {/* <HandlePtt
+    <HandlePtt
       // onStop={handlePttOff}
       isEnabled={agentState === "listening"}
-    /> */}
+    />
       <div
         className={`flex gap-4 py-4 grow w-full selection:bg-${themeColor}-900`}
       >
