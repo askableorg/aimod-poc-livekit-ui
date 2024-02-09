@@ -33,7 +33,6 @@ import {
 import { QRCodeSVG } from "qrcode.react";
 import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import { HandlePtt } from "./HandlePtt";
-import { set } from "radash";
 
 export enum PlaygroundOutputs {
   Video,
