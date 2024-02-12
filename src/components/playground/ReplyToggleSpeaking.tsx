@@ -33,12 +33,18 @@ export function ReplyToggleSpeaking({ isEnabled, children }: Props) {
     if (hidden) {
       timeout = setTimeout(() => {
         setHidden(false);
-      }, 250);
+      }, 1000);
     }
     return () => {
       if (timeout) { clearTimeout(timeout); }
     };
   }, [hidden]);
+
+  useEffect(() => {
+    if (isEnabled) {
+      setHidden(false);
+    }
+  }, [isEnabled]);
 
   if (!isEnabled || !tt?.track || !tt?.toggle || !hasInit || hidden) {
     return null;
