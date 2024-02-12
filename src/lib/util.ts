@@ -1,6 +1,6 @@
 export function generateRandomAlphanumeric(length: number): string {
   const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
   let result = "";
   const charactersLength = characters.length;
 

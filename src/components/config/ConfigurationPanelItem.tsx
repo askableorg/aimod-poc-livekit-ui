@@ -20,14 +20,12 @@ export const ConfigurationPanelItem: React.FC<ConfigurationPanelItemProps> = ({
         <h3>{title}</h3>
         {deviceSelectorKind && (
           <span className="flex flex-row gap-2">
-            <TrackToggle
-              className="px-2 py-1 bg-gray-900 text-gray-300 border border-gray-800 rounded-sm hover:bg-gray-800"
-              source={
-                deviceSelectorKind === "audioinput"
-                  ? Track.Source.Microphone
-                  : Track.Source.Camera
-              }
-            />
+            {deviceSelectorKind === "videoinput" && (
+              <TrackToggle
+                className="px-2 py-1 bg-gray-900 text-gray-300 border border-gray-800 rounded-sm hover:bg-gray-800"
+                source={Track.Source.Camera}
+              />
+            )}
             <PlaygroundDeviceSelector kind={deviceSelectorKind} />
           </span>
         )}

@@ -33,6 +33,7 @@ import {
 import { QRCodeSVG } from "qrcode.react";
 import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import { HandlePtt } from "./HandlePtt";
+import { ReplyToggleSpeaking } from "./ReplyToggleSpeaking";
 
 export enum PlaygroundOutputs {
   Video,
@@ -79,7 +80,9 @@ export default function Playground({
   const { localParticipant } = useLocalParticipant();
   const [userMicEnabled, setUserMicEnabled] = useState(true);
 
-  const [agentLastMessageText, setAgentLastMessageText] = useState<string | null>('');
+  const [agentLastMessageText, setAgentLastMessageText] = useState<
+    string | null
+  >("");
   const [agentIsThinking, setAgentIsThinking] = useState(true);
 
   const participants = useRemoteParticipants({
@@ -355,9 +358,7 @@ export default function Playground({
           <ConfigurationPanelItem
             title="Microphone"
             deviceSelectorKind="audioinput"
-          >
-            <AudioInputTile frequencies={localMultibandVolume} />
-          </ConfigurationPanelItem>
+          />
         )}
         {showQR && (
           <div className="w-full">
@@ -442,8 +443,11 @@ export default function Playground({
     if (lastBotMessage > lastUserMessage) {
       return;
     }
-    const unsentMessages = messages.slice(lastBotMessage + 1).map((m) => m.message).join('\n');
-    if (unsentMessages.trim() === '') {
+    const unsentMessages = messages
+      .slice(lastBotMessage + 1)
+      .map((m) => m.message)
+      .join("\n");
+    if (unsentMessages.trim() === "") {
       return;
     }
     sendChat(unsentMessages);
@@ -467,10 +471,10 @@ export default function Playground({
 
   return (
     <>
-    <HandlePtt
+      {/* <HandlePtt
       // onStop={handlePttOff}
       isEnabled={agentState === "listening"}
-    />
+    /> */}
       <div
         className={`flex gap-4 py-4 grow w-full selection:bg-${themeColor}-900`}
       >
@@ -515,14 +519,25 @@ export default function Playground({
               {chatTileContent}
             </PlaygroundTile>
           )}
-            <PlaygroundTile
-              title="Message"
-              className="h-full grow flex overflow-y-auto"
+          <PlaygroundTile
+            title="Message"
+            className="h-full grow flex overflow-y-auto"
+          >
+            <p
+              className={`text-${themeColor}-400 text-ts-${themeColor} text-md`}
             >
-              <p className={`text-${themeColor}-400 text-ts-${themeColor} text-md`}>
-                {agentLastMessageText || '...'}
-              </p>
-            </PlaygroundTile>
+              {agentLastMessageText || "..."}
+            </p>
+            {agentState === "listening" ? (
+              <div className="mt-16">
+                <ReplyToggleSpeaking
+                  isEnabled={agentState === "listening"}
+                >
+                  <AudioInputTile frequencies={localMultibandVolume} />
+                </ReplyToggleSpeaking>
+              </div>
+            ) : null}
+          </PlaygroundTile>
         </div>
         <PlaygroundTile
           padding={false}
