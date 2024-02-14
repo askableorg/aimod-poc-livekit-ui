@@ -1,7 +1,8 @@
+import { ReactNode, useEffect, useState } from "react";
 import { Button } from "@/components/button/Button";
 import { ConnectionState } from "livekit-client";
+import { useDisconnectButton } from "@livekit/components-react";
 import { LoadingSVG } from "@/components/button/LoadingSVG";
-import { ReactNode } from "react";
 
 type PlaygroundHeader = {
   logo?: ReactNode;
@@ -22,6 +23,13 @@ export const PlaygroundHeader = ({
   onConnectClicked,
   connectionState,
 }: PlaygroundHeader) => {
+  const [buttonClicked, setButtonClicked] = useState(false);
+  useEffect(() => {
+    setButtonClicked(connectionState === ConnectionState.Connecting);
+  }, [connectionState]);
+
+  const { buttonProps } = useDisconnectButton({});
+
   return (
     <div
       className={`flex gap-4 pt-4 text-${accentColor}-500 justify-end items-center shrink-0`}
@@ -32,23 +40,25 @@ export const PlaygroundHeader = ({
       {connectionState === ConnectionState.Connected ? (
         <Button
           accentColor="gray"
-          onClick={() => {
-            window.location.reload();
-          }}
+          // onClick={() => {
+          //   window.location.reload();
+          // }}
+          {...buttonProps}
         >
           Hang up
         </Button>
       ) : (
         <Button
           accentColor={accentColor}
-          disabled={connectionState === ConnectionState.Connecting}
+          disabled={buttonClicked}
           onClick={(e) => {
+            setButtonClicked(true);
             onConnectClicked();
             const button = e.target as HTMLButtonElement;
             button.blur();
           }}
         >
-          {connectionState === ConnectionState.Connecting ? (
+          {buttonClicked ? (
             <LoadingSVG />
           ) : (
             "Connect"

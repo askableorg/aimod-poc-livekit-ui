@@ -29,6 +29,12 @@ const themeColors = [
   "teal",
 ];
 
+const initRoom = async (roomName: string) => {
+  const res = await fetch(`/api/createRoom?roomName=${roomName}`);
+  const room = await res.json();
+  return room;
+}
+
 export function Room({ roomNameSuffix }: { roomNameSuffix?: string }) {
   const [toastMessage, setToastMessage] = useState<{
     message: string;
@@ -50,11 +56,11 @@ export function Room({ roomNameSuffix }: { roomNameSuffix?: string }) {
   }, []);
 
   // set a new room name each time the user disconnects so that a new token gets fetched behind the scenes for a different room
-  useEffect(() => {
-    if (shouldConnect === false) {
-      setRoomName(createRoomName(roomNameSuffix));
-    }
-  }, [shouldConnect]);
+  // useEffect(() => {
+  //   if (shouldConnect === false) {
+  //     setRoomName(createRoomName(roomNameSuffix));
+  //   }
+  // }, [shouldConnect]);
 
   useEffect(() => {
     const md: PlaygroundMeta[] = [];
@@ -80,7 +86,15 @@ export function Room({ roomNameSuffix }: { roomNameSuffix?: string }) {
   ].filter((item) => typeof item !== "boolean") as PlaygroundOutputs[];
 
   const handleConnect = useCallback(
-    (connect: boolean, opts?: { url: string; token: string }) => {
+    async(connect: boolean, opts?: { url: string; token: string }) => {
+      if (connect) {
+        try {
+          await initRoom(roomName);
+        } catch (e: any) {
+          setToastMessage({ message: e?.message, type: "error" });
+          return;
+        }
+      }
       if (connect && opts) {
         setLiveKitUrl(opts.url);
         setCustomToken(opts.token);
@@ -118,6 +132,7 @@ export function Room({ roomNameSuffix }: { roomNameSuffix?: string }) {
           audio={appConfig?.inputs.mic}
           video={appConfig?.inputs.camera}
           connect={shouldConnect}
+          onDisconnected={() => window.location.replace('/')}
           onError={(e) => {
             setToastMessage({ message: e.message, type: "error" });
             console.error(e);
